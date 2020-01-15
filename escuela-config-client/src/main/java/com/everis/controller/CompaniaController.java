@@ -63,18 +63,18 @@ public class CompaniaController {
 		return companiaDTO;
 	}
 
-	@PutMapping("/companias/{idCompania}/persona/{idPersona}")
-	public CompaniaDTO asociarPersona(@PathVariable Long idCompania, @PathVariable Long idPersona) {
+	@PutMapping("/compania/{idCompania}/persona/{idPersona}")
+	public CompaniaDTO asociarPersona(@PathVariable Long idCompania, @PathVariable Long idPersona) throws ResourceNotFoundException {
 		Compania companiaEntidad = companiaService.asociarPersonaCompania(idCompania, idPersona);
 		CompaniaDTO companiaDTO = new ModelMapper().map(companiaEntidad, CompaniaDTO.class);
 		return companiaDTO;
 	}
 
-	@PutMapping("/companias/{id}")
-	public boolean actualizarCompania(@PathVariable Long id, @RequestBody CompaniaReducidaDTO compania)
-			throws Exception {
+	@PutMapping("/compania/{id}")
+	public boolean actualizarCompania(@PathVariable Long id, @RequestBody CompaniaReducidaDTO companiaDTO)
+			throws ResourceNotFoundException, Exception {
 		ModelMapper modelMapper = new ModelMapper();
-		Compania companiaEntidad = modelMapper.map(compania, Compania.class);
+		Compania companiaEntidad = modelMapper.map(companiaDTO, Compania.class);
 		companiaEntidad.setId(id);
 		return companiaService.actualizarCompania(companiaEntidad);
 	}
@@ -85,4 +85,5 @@ public class CompaniaController {
 	 * @RequestMapping(value="/palabra",method=RequestMethod.GET) public String
 	 * obtenerPalabra() { return "La palabra obtenida es: " + palabra; }
 	 */
+	
 }

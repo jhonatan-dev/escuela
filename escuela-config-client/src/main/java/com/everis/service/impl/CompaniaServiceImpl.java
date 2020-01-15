@@ -40,20 +40,22 @@ public class CompaniaServiceImpl implements CompaniaService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public boolean actualizarCompania(Compania compania) throws Exception {
+	public boolean actualizarCompania(Compania compania) throws ResourceNotFoundException, Exception {
+		companiaRepository.findById(compania.getId()).orElseThrow(
+				() -> new ResourceNotFoundException(String.format("No se encontró una compañía con el id %s en la BD.", compania.getId())));
 		try {
 			companiaRepository.update(compania);
 			return true;
 		} catch (Exception e) {
-			throw e;
+			throw new Exception("No se pudo actualizar la compañía");
 		}
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public Compania asociarPersonaCompania(Long idCompania, Long idPersona) {
-		Persona persona = personaRepository.findById(idPersona).get();
-		Compania compania = companiaRepository.findById(idCompania).get();
+	public Compania asociarPersonaCompania(Long idCompania, Long idPersona) throws ResourceNotFoundException {
+		Persona persona = personaRepository.findById(idPersona).orElseThrow(() -> new ResourceNotFoundException(String.format("No se encontró la persona con el id:%s indicado.", idPersona)));
+		Compania compania = companiaRepository.findById(idCompania).orElseThrow(() -> new ResourceNotFoundException(String.format("No se encontró la compañía con el id:%s indicado.", idCompania)));
 		persona.setCompania(compania);
 		personaRepository.save(persona);
 		return companiaRepository.findById(idCompania).get();

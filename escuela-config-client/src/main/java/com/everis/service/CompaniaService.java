@@ -11,8 +11,8 @@ public interface CompaniaService {
 	
 	public Compania obtenerCompaniaPorId(Long id) throws ResourceNotFoundException;
 	
-	public Compania asociarPersonaCompania(Long idCompania, Long idPersona);
+	public Compania asociarPersonaCompania(Long idCompania, Long idPersona) throws ResourceNotFoundException;
 	
-	public boolean actualizarCompania(Compania compania) throws Exception;
+	public boolean actualizarCompania(Compania compania) throws ResourceNotFoundException, Exception;
 	
 }
