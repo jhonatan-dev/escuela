@@ -21,7 +21,7 @@ public class ProductoServiceImpl implements ProductoService {
 
 	@Autowired
 	private TipoProductoRepository tipoProductoRepository;
-	
+
 	@Override
 	public Iterable<Producto> obtenerProductos() {
 		return productoRepository.findAll();
@@ -30,9 +30,8 @@ public class ProductoServiceImpl implements ProductoService {
 	@Override
 	@Transactional(readOnly = false)
 	public Producto guardarProducto(Producto producto) throws ValidacionException {
-		TipoProducto tipoProducto = null;
-		
-		
+		TipoProducto tipoProducto = tipoProductoRepository.findByCodigo(producto.getTipoProducto().getCodigo()).get();
+		producto.setTipoProducto(tipoProducto);
 		Producto nuevo = productoRepository.save(producto);
 		productoRepository.refresh(nuevo);
 		return nuevo;

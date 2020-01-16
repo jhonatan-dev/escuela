@@ -44,7 +44,7 @@ public class ProductoController {
 		if (list != null && list.size() > 0) {
 			URI uri = list.get(0).getUri();
 			if (uri != null) {
-				return (new RestTemplate()).getForObject(uri.getPath() + "/stock/acumulado/{idProducto}",
+				return (new RestTemplate()).getForObject(uri.toString() + "/stock/acumulado/producto/{idProducto}",
 						CantidadStockDTO.class, idProducto);
 			}
 		}
