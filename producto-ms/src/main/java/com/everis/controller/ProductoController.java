@@ -50,7 +50,9 @@ public class ProductoController {
 
 		TipoProducto tipoProductoEntidad = new TipoProducto();
 		tipoProductoEntidad.setCodigo(productoReducidoDTO.getCodigoProducto());
-
+		
+		System.out.println("Codigo de producto:"+productoReducidoDTO.getCodigoProducto());
+		
 		ImagenProducto imagenProductoEntidad = new ImagenProducto();
 		imagenProductoEntidad.setRutaImagen(productoReducidoDTO.getRutaImagen());
 		imagenProductoEntidad.setRutaThumbnail(productoReducidoDTO.getRutaThumbnail());

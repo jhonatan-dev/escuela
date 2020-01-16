@@ -44,7 +44,7 @@ public class Producto {
 	@Column
 	private BigDecimal precio;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private TipoProducto tipoProducto;
 
 	@OneToOne(cascade = CascadeType.ALL)

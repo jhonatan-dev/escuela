@@ -13,7 +13,7 @@
 	<artifactId>compania-ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>compania-ms</name>
-	<description>Compañía MicroServicio</description>
+	<description>Compañía MicroServicio (Config Client)</description>
 
 	<properties>
 		<java.version>1.8</java.version>

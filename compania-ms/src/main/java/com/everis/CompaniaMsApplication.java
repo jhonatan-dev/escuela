@@ -11,10 +11,10 @@ import com.everis.util.CustomRepositoryImpl;
 @EnableJpaRepositories(repositoryBaseClass = CustomRepositoryImpl.class)
 @EnableEurekaClient
 @SpringBootApplication
-public class EscuelaConfigClientApplication {
+public class CompaniaMsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EscuelaConfigClientApplication.class, args);
+		SpringApplication.run(CompaniaMsApplication.class, args);
 	}
 
 }
