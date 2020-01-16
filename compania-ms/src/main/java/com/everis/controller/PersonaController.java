@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,16 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.everis.dto.PersonaDTO;
 import com.everis.dto.PersonaReducidaDTO;
 import com.everis.entidad.Persona;
-import com.everis.exception.ValidacionException;
 import com.everis.exception.ResourceNotFoundException;
+import com.everis.exception.ValidacionException;
 import com.everis.service.PersonaService;
 
 @RestController
+@RefreshScope
 public class PersonaController {
 
 	@Autowired
 	private PersonaService personaService;
 
+	@Value("${igv}")
+	private String igv;
+	
 	// @RequestMapping(value="/personas",method=RequestMethod.GET)
 	@GetMapping("/personas")
 	public Iterable<PersonaDTO> obtenerPersonas() {
@@ -60,6 +66,11 @@ public class PersonaController {
 		ModelMapper modelMapper = new ModelMapper();
 		PersonaReducidaDTO personaReducidaDTO = modelMapper.map(personaEntidad, PersonaReducidaDTO.class);
 		return personaReducidaDTO;
+	}
+	
+	@GetMapping("/igv")
+	public String obtenerIGV() {
+		return "El igv es:" + igv;
 	}
 	
 	/*
