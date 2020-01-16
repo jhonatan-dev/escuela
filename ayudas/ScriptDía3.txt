@@ -1,0 +1,28 @@
+Asociar persona a compañía - PUT
+/compania/{idCompania}/persona/{idPersona}
+
+Actualizar compañía - PUT
+/compania/{idCompania} (body -> CompaniaReducidaDTO)
+
+Persona
+1. Agregar la anotación @unique al dni (Entidad)
+2. Controlar la excepción cuando ya existe el dni (Guardar)
+
+Levantar Eureka
+
+Añadir en hosts
+# START section for Microservices with Spring Course
+127.0.0.1       eureka-primary
+127.0.0.1       eureka-secondary
+127.0.0.1       eureka-tertiary
+# END section for Microservices with Spring Course
+
+netstat -ano | findstr :8084
+taskkill /PID [idProcesoWindows] /f
+
+
+git init
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/gitnosvn/escuela.git
+git push -u origin master

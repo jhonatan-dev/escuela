@@ -1,0 +1,35 @@
+Añadir: al config server y config clients
+
+-Spring for RabbitMQ
+-Spring Boot Actuator
+-Cloud Bus
+
+
+Instalar RabbitMQ por medio de docker, esto para hacer que cualquier cambio se realice en el repo del config server se actualice automáticamente en el servidor Config-Server sin volverlo a reiniciar.
+
+https://www.rabbitmq.com/download.html
+
+Ir a la url y logearse
+http://localhost:15672/
+
+Usuario.: guest
+Password: guest
+
+stock-ms
+--------
+
+Entidades:
+ Stock
+   - id
+   - idProducto
+   - idTienda
+   - cantidad
+
+GET
+---
+
+1. stock/acumulado/producto/{idProducto} : La cantidad de productos en todas las tiendas.
+
+2. stock/producto/{idProducto}/tienda/{idTienda}: La cantidad de productos en la tienda especificada.
+
+Table Plus
