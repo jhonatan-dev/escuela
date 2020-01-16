@@ -1,19 +1,25 @@
 package com.everis.controller;
 
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
+import com.everis.dto.CantidadStockDTO;
 import com.everis.dto.ProductoDTO;
 import com.everis.dto.ProductoReducidoDTO;
 import com.everis.entidad.ImagenProducto;
@@ -28,7 +34,22 @@ import com.everis.service.ProductoService;
 public class ProductoController {
 
 	@Autowired
+	private DiscoveryClient client;
+
+	@Autowired
 	private ProductoService productoService;
+
+	public CantidadStockDTO getCantidad(String service, Long idProducto) {
+		List<ServiceInstance> list = client.getInstances(service);
+		if (list != null && list.size() > 0) {
+			URI uri = list.get(0).getUri();
+			if (uri != null) {
+				return (new RestTemplate()).getForObject(uri.getPath() + "/stock/acumulado/{idProducto}",
+						CantidadStockDTO.class, idProducto);
+			}
+		}
+		return null;
+	}
 
 	@Value("${igv}")
 	private String igv;
@@ -46,7 +67,9 @@ public class ProductoController {
 
 	@GetMapping("/productos/{id}")
 	public ProductoDTO obtenerProductoPorId(@PathVariable Long id) throws ResourceNotFoundException {
-		return new ModelMapper().map(productoService.obtenerProductoPorId(id), ProductoDTO.class);
+		ProductoDTO productoDTO = new ModelMapper().map(productoService.obtenerProductoPorId(id), ProductoDTO.class);
+		productoDTO.setCantidadStock(getCantidad("stock-ms", id).getCantidad());
+		return productoDTO;
 	}
 
 	@PostMapping("/productos")

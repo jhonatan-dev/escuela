@@ -11,13 +11,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StockDTO {
-	
-	@JsonProperty(value = "producto_id")
-	private Long idProducto;
-	
-	@JsonProperty(value = "tienda_id")
-	private Long idTienda;
+public class CantidadStockDTO {
 	
 	private Long cantidad;
 

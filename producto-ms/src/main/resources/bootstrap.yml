@@ -1,6 +1,6 @@
 spring:
   application:
-    name: producto
+    name: producto-ms
   cloud:
     config:
       uri:
