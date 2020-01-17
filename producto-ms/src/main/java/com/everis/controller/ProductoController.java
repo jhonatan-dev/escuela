@@ -42,7 +42,8 @@ public class ProductoController {
 	public CantidadStockDTO getCantidad(String service, Long idProducto) {
 		List<ServiceInstance> list = client.getInstances(service);
 		if (list != null && list.size() > 0) {
-			URI uri = list.get(0).getUri();
+			int rand = (int) Math.round(Math.random()*10) % list.size();
+			URI uri = list.get(rand).getUri();
 			if (uri != null) {
 				return (new RestTemplate()).getForObject(uri.toString() + "/stock/acumulado/producto/{idProducto}",
 						CantidadStockDTO.class, idProducto);
@@ -50,11 +51,11 @@ public class ProductoController {
 		}
 		return null;
 	}
-
-	@Value("${igv}")
+	
+	@Value("${igv}") 
 	private String igv;
 
-	@GetMapping("/productos")
+	@GetMapping("/productos") 
 	public Iterable<ProductoDTO> obtenerProductos() {
 		Iterable<Producto> listaProductosEntidad = productoService.obtenerProductos();
 		ArrayList<ProductoDTO> listaProductosDTO = new ArrayList<ProductoDTO>();
@@ -88,6 +89,7 @@ public class ProductoController {
 		productoEntidad.setImagenProducto(imagenProductoEntidad);
 
 		return new ModelMapper().map(productoService.guardarProducto(productoEntidad), ProductoDTO.class);
+		//return new ModelMapper().map(productoEntidad, ProductoDTO.class);
 	}
 
 	@GetMapping("/igv")

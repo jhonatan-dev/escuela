@@ -8,7 +8,7 @@ public interface ProductoService {
 
 	public Iterable<Producto> obtenerProductos();
 
-	public Producto guardarProducto(Producto producto) throws ValidacionException;
+	public Producto guardarProducto(Producto producto) throws ValidacionException, ResourceNotFoundException;
 
 	public Producto obtenerProductoPorId(Long id) throws ResourceNotFoundException;
 

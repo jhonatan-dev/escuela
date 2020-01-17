@@ -29,12 +29,16 @@ public class ProductoServiceImpl implements ProductoService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public Producto guardarProducto(Producto producto) throws ValidacionException {
-		TipoProducto tipoProducto = tipoProductoRepository.findByCodigo(producto.getTipoProducto().getCodigo()).get();
+	public Producto guardarProducto(Producto producto) throws ValidacionException, ResourceNotFoundException {
+		TipoProducto tipoProducto = tipoProductoRepository.findByCodigo(producto.getTipoProducto().getCodigo())
+				.orElseThrow(() -> new ResourceNotFoundException(
+						String.format("No se encontró un Tipo de Producto con código %s en la BD.",
+								producto.getTipoProducto().getCodigo())));
+		;
 		producto.setTipoProducto(tipoProducto);
 		Producto nuevo = productoRepository.save(producto);
 		productoRepository.refresh(nuevo);
-		return nuevo;
+		return producto;
 	}
 
 	@Override

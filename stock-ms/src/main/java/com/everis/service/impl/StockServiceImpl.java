@@ -17,17 +17,19 @@ public class StockServiceImpl implements StockService {
 
 	@Override
 	public Long obtenerCantidadProductosEnTodaLaTienda(Long idProducto) throws ResourceNotFoundException {
-		return stockRepository.obtenerCantidadProductosEnTodaLaTienda(idProducto)
-				.orElseThrow(() -> new ResourceNotFoundException(
-						String.format("No se encontró el producto con el id %s en la BD.", idProducto)));
+		return stockRepository.obtenerCantidadProductosEnTodaLaTienda(idProducto).orElse(new Long(0));
 	}
 
 	@Override
 	public Long obtenerCantidadProductosEnTiendaPorSuId(Long idProducto, Long idTienda)
 			throws ResourceNotFoundException {
-		return stockRepository.obtenerCantidadProductosEnTiendaPorSuId(idProducto, idTienda)
-				.orElseThrow(() -> new ResourceNotFoundException(
-						String.format("No se encontró productos de la tienda con el id %s en la BD.", idTienda)));
+		return stockRepository.obtenerCantidadProductosEnTiendaPorSuId(idProducto, idTienda).orElse(new Long(0));
+		/*
+		 * return stockRepository.obtenerCantidadProductosEnTiendaPorSuId(idProducto,
+		 * idTienda) .orElseThrow(() -> new ResourceNotFoundException(
+		 * String.format("No se encontró productos de la tienda con el id %s en la BD.",
+		 * idTienda)));
+		 */
 
 	}
 }
