@@ -9,8 +9,8 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CantidadStockDTO {
-	
-	private Long cantidad;
+public class TipoProductoDTO {
+	private String nombre;
+	private String codigo;
 
 }

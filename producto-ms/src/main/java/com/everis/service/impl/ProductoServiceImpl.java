@@ -38,7 +38,7 @@ public class ProductoServiceImpl implements ProductoService {
 		producto.setTipoProducto(tipoProducto);
 		Producto nuevo = productoRepository.save(producto);
 		productoRepository.refresh(nuevo);
-		return producto;
+		return nuevo;
 	}
 
 	@Override
