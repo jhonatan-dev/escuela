@@ -21,4 +21,6 @@ public interface StockRepository extends CustomRepository<Stock, Long> {
 	@Query("select sum(s.cantidad) from Stock s where s.idProducto = ?1 and s.idTienda = ?2")
 	public Optional<Long> obtenerCantidadProductosEnTiendaPorSuId(Long idProducto, Long idTienda);
 
+	public Iterable<Stock> findByIdProductoOrderByCantidadDesc(Long idProducto);
+
 }

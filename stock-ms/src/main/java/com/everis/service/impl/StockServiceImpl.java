@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.everis.entidad.Stock;
 import com.everis.exception.ResourceNotFoundException;
 import com.everis.repository.StockRepository;
 import com.everis.service.StockService;
@@ -30,6 +31,29 @@ public class StockServiceImpl implements StockService {
 		 * String.format("No se encontró productos de la tienda con el id %s en la BD.",
 		 * idTienda)));
 		 */
+	}
 
+	@Transactional(readOnly = false)
+	@Override
+	public void actualizarStock(Stock stock) throws ResourceNotFoundException {
+
+		Iterable<Stock> listaStocksBD = stockRepository.findByIdProductoOrderByCantidadDesc(stock.getIdProducto());
+
+		Long cantidadEnviada = stock.getCantidad();
+
+		for (Stock stockEntidad : listaStocksBD) {
+			if (cantidadEnviada == 0L) {
+				break;
+			}
+			if (cantidadEnviada >= stockEntidad.getCantidad()) {
+				cantidadEnviada -= stockEntidad.getCantidad();
+				stockEntidad.setCantidad(0L);
+			} else {
+				stockEntidad.setCantidad(stockEntidad.getCantidad() - cantidadEnviada);
+				cantidadEnviada = 0L;
+			}
+		}
+
+		stockRepository.saveAll(listaStocksBD);
 	}
 }

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,8 +35,8 @@ public class DetalleOrden {
 	@Column
 	private Long cantidad;
 
-	//@ManyToOne(fetch = FetchType.LAZY)
-	//private Orden orden;
+	@ManyToOne
+	private Orden orden;
 
 	@Column
 	private BigDecimal precio;

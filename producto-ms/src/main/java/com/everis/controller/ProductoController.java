@@ -1,15 +1,12 @@
 package com.everis.controller;
 
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-import com.everis.dto.CantidadStockDTO;
 import com.everis.dto.ProductoDTO;
 import com.everis.dto.ProductoReducidoDTO;
 import com.everis.entidad.ImagenProducto;
@@ -27,6 +22,7 @@ import com.everis.entidad.Producto;
 import com.everis.entidad.TipoProducto;
 import com.everis.exception.ResourceNotFoundException;
 import com.everis.exception.ValidacionException;
+import com.everis.feign.AlmacenClient;
 import com.everis.service.ProductoService;
 
 @RestController
@@ -39,18 +35,8 @@ public class ProductoController {
 	@Autowired
 	private ProductoService productoService;
 
-	public CantidadStockDTO getCantidad(String service, Long idProducto) {
-		List<ServiceInstance> list = client.getInstances(service);
-		if (list != null && list.size() > 0) {
-			int rand = (int) Math.round(Math.random() * 10) % list.size();
-			URI uri = list.get(rand).getUri();
-			if (uri != null) {
-				return (new RestTemplate()).getForObject(uri.toString() + "/stock/acumulado/producto/{idProducto}",
-						CantidadStockDTO.class, idProducto);
-			}
-		}
-		return null;
-	}
+	@Autowired
+	private AlmacenClient almacenClient;
 
 	@Value("${igv}")
 	private String igv;
@@ -69,7 +55,7 @@ public class ProductoController {
 	@GetMapping("/productos/{id}")
 	public ProductoDTO obtenerProductoPorId(@PathVariable Long id) throws ResourceNotFoundException {
 		ProductoDTO productoDTO = new ModelMapper().map(productoService.obtenerProductoPorId(id), ProductoDTO.class);
-		productoDTO.setCantidadStock(getCantidad("almacen-ms", id).getCantidad());
+		productoDTO.setCantidadStock(almacenClient.obtenerCantidadProductosEnTodaLaTienda(id).getCantidad());
 		return productoDTO;
 	}
 
