@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.everis.dto.CantidadStockDTO;
 import com.everis.dto.OrdenDTO;
 import com.everis.dto.OrdenReducidaDTO;
 import com.everis.dto.ProductoDTO;
@@ -29,9 +27,6 @@ import com.everis.service.OrdenService;
 @RestController
 @RefreshScope
 public class OrdenController {
-
-	@Autowired
-	private DiscoveryClient client;
 
 	@Autowired
 	private OrdenService ordenService;
@@ -78,7 +73,7 @@ public class OrdenController {
 		}
 
 		Orden ordenRegistrada = ordenService.guardarOrden(ordenEntidad);
-		
+
 		almacenClient.actualizarStock(modelMapper.map(ordenRegistrada, OrdenReducidaDTO.class));
 
 		return modelMapper.map(ordenRegistrada, OrdenDTO.class);

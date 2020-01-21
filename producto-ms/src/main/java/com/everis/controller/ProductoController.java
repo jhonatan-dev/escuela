@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +21,7 @@ import com.everis.entidad.Producto;
 import com.everis.entidad.TipoProducto;
 import com.everis.exception.ResourceNotFoundException;
 import com.everis.exception.ValidacionException;
-import com.everis.feign.AlmacenClient;
+import com.everis.service.FeignService;
 import com.everis.service.ProductoService;
 
 @RestController
@@ -30,13 +29,9 @@ import com.everis.service.ProductoService;
 public class ProductoController {
 
 	@Autowired
-	private DiscoveryClient client;
-
-	@Autowired
 	private ProductoService productoService;
 
-	@Autowired
-	private AlmacenClient almacenClient;
+	private FeignService feignService;
 
 	@Value("${igv}")
 	private String igv;
@@ -55,7 +50,7 @@ public class ProductoController {
 	@GetMapping("/productos/{id}")
 	public ProductoDTO obtenerProductoPorId(@PathVariable Long id) throws ResourceNotFoundException {
 		ProductoDTO productoDTO = new ModelMapper().map(productoService.obtenerProductoPorId(id), ProductoDTO.class);
-		productoDTO.setCantidadStock(almacenClient.obtenerCantidadProductosEnTodaLaTienda(id).getCantidad());
+		productoDTO.setCantidadStock(feignService.obtenerCantidadProductosEnTodaLaTienda(id).getCantidad());
 		return productoDTO;
 	}
 

@@ -1,0 +1,13 @@
+Para verificar el Dashboard de CircuitBreaker
+ingresar al url del MicroServicio con su ruta /actuator/
+
+Ejemplo: http://host.docker.internal:51486/actuator/
+
+se obtenbrá una url del Hystrix como esta
+
+http://host.docker.internal:51486/actuator/hystrix.stream
+
+
+ingresar al url :
+
+http://host.docker.internal:51486/hystrix
