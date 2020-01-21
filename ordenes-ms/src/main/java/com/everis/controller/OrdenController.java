@@ -20,8 +20,7 @@ import com.everis.dto.OrdenReducidaDTO;
 import com.everis.dto.ProductoDTO;
 import com.everis.entidad.Orden;
 import com.everis.exception.ValidacionException;
-import com.everis.feign.AlmacenClient;
-import com.everis.feign.ProductoClient;
+import com.everis.service.FeignService;
 import com.everis.service.OrdenService;
 
 @RestController
@@ -31,11 +30,7 @@ public class OrdenController {
 	@Autowired
 	private OrdenService ordenService;
 
-	@Autowired
-	private ProductoClient productoClient;
-
-	@Autowired
-	private AlmacenClient almacenClient;
+	private FeignService feignService;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/ordenes")
@@ -46,7 +41,7 @@ public class OrdenController {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
 		for (int i = 0; i < ordenReducidaDTO.getDetalle().size(); i++) {
-			if (ordenReducidaDTO.getDetalle().get(i).getCantidad() > almacenClient
+			if (ordenReducidaDTO.getDetalle().get(i).getCantidad() > feignService
 					.obtenerCantidadProductosEnTodaLaTienda(ordenReducidaDTO.getDetalle().get(i).getIdProducto())
 					.getCantidad()) {
 				throw new ValidacionException("Cantidad del Producto con id "
@@ -60,7 +55,7 @@ public class OrdenController {
 		ordenEntidad.setTotal(new BigDecimal(0));
 
 		for (int i = 0; i < ordenEntidad.getDetalle().size(); i++) {
-			ProductoDTO productoDTO = productoClient
+			ProductoDTO productoDTO = feignService
 					.obtenerProductoPorId(ordenEntidad.getDetalle().get(i).getIdProducto());
 			ordenEntidad.getDetalle().get(i).setPrecio(productoDTO.getPrecio());
 			BigDecimal totalDetalle = new BigDecimal(0);
@@ -74,7 +69,7 @@ public class OrdenController {
 
 		Orden ordenRegistrada = ordenService.guardarOrden(ordenEntidad);
 
-		almacenClient.actualizarStock(modelMapper.map(ordenRegistrada, OrdenReducidaDTO.class));
+		feignService.actualizarStock(modelMapper.map(ordenRegistrada, OrdenReducidaDTO.class));
 
 		return modelMapper.map(ordenRegistrada, OrdenDTO.class);
 	}
