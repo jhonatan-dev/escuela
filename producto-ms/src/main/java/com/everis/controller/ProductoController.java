@@ -30,7 +30,8 @@ public class ProductoController {
 
 	@Autowired
 	private ProductoService productoService;
-
+	
+	@Autowired
 	private FeignService feignService;
 
 	@Value("${igv}")

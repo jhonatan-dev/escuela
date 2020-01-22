@@ -29,7 +29,8 @@ public class OrdenController {
 
 	@Autowired
 	private OrdenService ordenService;
-
+	
+	@Autowired
 	private FeignService feignService;
 
 	@ResponseStatus(HttpStatus.CREATED)

@@ -3,6 +3,7 @@ package com.everis.service.impl;
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.everis.dto.CantidadStockDTO;
 import com.everis.dto.OrdenReducidaDTO;
@@ -13,6 +14,7 @@ import com.everis.feign.ProductoClient;
 import com.everis.service.FeignService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
+@Service
 public class FeignServiceImpl implements FeignService {
 
 	@Autowired
