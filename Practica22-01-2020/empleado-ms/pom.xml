@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.everis</groupId>
-	<artifactId>empresa-ms</artifactId>
+	<artifactId>empleado-ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>empresa-ms</name>
-	<description>Empresa (Config Client)</description>
+	<name>empleado-ms</name>
+	<description>Empleado MicroServicio (Config Client)</description>
 
 	<properties>
 		<java.version>1.8</java.version>
