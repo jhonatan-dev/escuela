@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8081 #Se coloca la IP de nuestro config server
+  application:
+    name: escuela-gateway

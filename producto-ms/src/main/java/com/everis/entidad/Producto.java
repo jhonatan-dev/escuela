@@ -49,7 +49,6 @@ public class Producto {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private ImagenProducto imagenProducto;
-
-	@Column
-	private Boolean activo;
+	
+	private Long idEmpresa;
 }

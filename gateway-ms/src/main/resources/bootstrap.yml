@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8800 #Se coloca la IP de nuestro config server
+  application:
+    name: gateway-ms

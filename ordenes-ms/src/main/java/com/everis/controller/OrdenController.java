@@ -19,9 +19,14 @@ import com.everis.dto.OrdenDTO;
 import com.everis.dto.OrdenReducidaDTO;
 import com.everis.dto.ProductoDTO;
 import com.everis.entidad.Orden;
+import com.everis.exception.ResourceNotFoundException;
 import com.everis.exception.ValidacionException;
 import com.everis.service.FeignService;
 import com.everis.service.OrdenService;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RefreshScope
@@ -29,13 +34,19 @@ public class OrdenController {
 
 	@Autowired
 	private OrdenService ordenService;
-	
+
 	@Autowired
 	private FeignService feignService;
 
+	@ApiOperation(value = "Guardar una orden de venta", notes = "Al guardar una orden se verificará el stock en los almacenes de cada producto.", response = OrdenDTO.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "Se registró correctamente la orden.", response = OrdenDTO.class),
+			@ApiResponse(code = 404, message = "Recurso no encontrado.", response = ResourceNotFoundException.class),
+			@ApiResponse(code = 200, message = "Validación de negocio.", response = ValidacionException.class) })
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/ordenes")
-	public OrdenDTO guardarOrden(@Valid @RequestBody OrdenReducidaDTO ordenReducidaDTO) throws Exception {
+	public OrdenDTO guardarOrden(@Valid @RequestBody OrdenReducidaDTO ordenReducidaDTO)
+			throws ValidacionException, ResourceNotFoundException, Exception {
 
 		ModelMapper modelMapper = new ModelMapper();
 

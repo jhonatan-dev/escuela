@@ -34,7 +34,6 @@ public class ProductoServiceImpl implements ProductoService {
 				.orElseThrow(() -> new ResourceNotFoundException(
 						String.format("No se encontró un Tipo de Producto con código %s en la BD.",
 								producto.getTipoProducto().getCodigo())));
-		;
 		producto.setTipoProducto(tipoProducto);
 		Producto nuevo = productoRepository.save(producto);
 		productoRepository.refresh(nuevo);

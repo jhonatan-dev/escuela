@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<title>Website</title>
+
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" />
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous" />
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous"></script>
+
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<base href="/" />
+</head>
+<!--  
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Welcome</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap.min.css}" />
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
+	th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width" />
+-->
+</head>
+<body>
+	<div class="container">
+		<div class="starter-template">
+
+			<!--  
+			<h1>Producto 1</h1>
+			<span id="producto"></span> <br>
+			-->
+			<br>
+
+			<button type="button" class="btn btn-primary" data-toggle="modal"
+				data-target="#modalCrearProducto">Crear Producto</button>
+
+			<br>
+			<table id="tablaProductos"
+				class="table table-hover table-responsive table-bordered">
+				<caption>Lista de Productos Registrados</caption>
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Nombre</th>
+						<th>Código</th>
+						<th>Descripción</th>
+						<th>Precio</th>
+						<th>Tipo</th>
+						<th>Stock</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalCrearProducto" tabindex="-1"
+		role="dialog" aria-labelledby="modalCrearProductoLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">...</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var prefix = "";
+		$.getJSON(prefix + "/producto/productos/2", null, displayOnlyProduct)
+				.fail(err);
+
+		$.getJSON(prefix + "/producto/productos/", null, displayAllProduct)
+				.fail(err);
+
+		function displayOnlyProduct(data) {
+			//$("#producto").html(data.nombre + "-" + data.descripcion);
+			//console.log(data);
+		}
+
+		function displayAllProduct(data) {
+			for (var i = 0; i < data.length; i++) {
+				$('#tablaProductos > tbody:last-child')
+						.append(
+								`<tr> <td>${data[i].id}</td> <td>${data[i].nombre}</td> <td>${data[i].codigo}</td> <td>${data[i].descripcion}</td> <td>${data[i].precio}</td> <td>${data[i].tipo_producto.nombre}</td> <td>${data[i].cantidad_stock}</td> </tr>`);
+			}
+		}
+
+		function err(xhr, status, msg, prefix) {
+			var text = xhr.responseText;
+			var emsg = "<p><b>AJAX Falló obteniendo " + prefix + ": "
+					+ xhr.status + " " + msg + "</b><br/></p>";
+			$("#error").append(emsg);
+			$("#error").show();
+		}
+	</script>
+</body>
+</html>

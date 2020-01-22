@@ -32,4 +32,4 @@ GET
 
 2. stock/producto/{idProducto}/tienda/{idTienda}: La cantidad de productos en la tienda especificada.
 
-Table Plus
+- Programa para acceder a las BD's de manera sencilla: Table Plus

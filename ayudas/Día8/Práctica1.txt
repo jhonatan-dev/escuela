@@ -1,0 +1,47 @@
+Entidades:
+
+Empleado:
+-id
+-nombre
+-apellidoPaterno
+-apellidoMaterno
+-dni
+-fechaIngreso
+-activo
+-Empresa empresa
+
+Empresa:
+-id
+-nombre
+-ruc
+-direccion
+-List<Empleados> empleados
+
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class EmpleadoDTO {
+
+	private Long id;
+	
+	private String nombre;
+	
+	@JsonProperty(value = "apellido_paterno")
+	private String apellidoPaterno;
+	
+	@JsonProperty(value = "apellido_materno")
+	private String apellidoMaterno;
+	
+	private String dni;
+        
+        @PastOrPresent
+	@JsonProperty(value = "fecha_ingreso")
+	private Date fechaIngreso;
+
+	private boolean activo;
+	
+	private String empresa;
+
+}
