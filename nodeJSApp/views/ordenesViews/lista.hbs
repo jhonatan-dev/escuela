@@ -1,0 +1,47 @@
+<h1 class="mt-4 mb-3">Lista de Ordenes</h1>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Inicio</a>
+    </li>
+    <li class="breadcrumb-item active">Lista de Ordenes
+    </li>
+</ol>
+
+<div class="table-wrapper">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>Orden <b>Detalles</b></h2>
+            </div>
+            <div class="col-sm-4">
+                <button id="agregarNuevaOrden" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i>
+                    Agregar nueva orden</button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Fecha de Envío</th>
+                <th>Id Cliente</th>
+                <th>Total (S/.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each lista_ordenes }}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{ formatDate fecha}}</td>
+                <td>{{ formatDate fecha_envio}}</td>
+                <td>{{id_cliente}}</td>
+                <td>{{total}}</td>
+            </tr>
+            {{/each }}
+        </tbody>
+    </table>
+</div>
+
+<script src="/js/ordenes/lista.js"></script>

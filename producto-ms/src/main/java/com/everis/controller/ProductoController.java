@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -87,6 +88,7 @@ public class ProductoController {
 	@GetMapping("/tipoproductos")
 	public Iterable<TipoProductoDTO> obtenerTipoProductos() {
 		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		Iterable<TipoProducto> listaTipoProductos = tipoProductoService.obtenerTipoProductos();
 		ArrayList<TipoProductoDTO> listaProductosDTO = new ArrayList<TipoProductoDTO>();
 		listaTipoProductos.forEach((tipoProducto) -> {

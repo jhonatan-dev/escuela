@@ -5,7 +5,7 @@ const router = express.Router();
 
 const axios = require("axios");
 
-const gatewayURL = "http://host.docker.internal:9090";
+const { gatewayURL } = require("../keys/Gateway");
 
 router.get("/", async (req, res) => {
   var lista_productos = [];

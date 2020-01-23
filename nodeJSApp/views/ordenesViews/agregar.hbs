@@ -1,0 +1,43 @@
+<h1 class="mt-4 mb-3">Agregar Nueva Orden</h1>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Inicio</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/ordenes">Lista Ordenes</a>
+    </li>
+    <li class="breadcrumb-item active">Agregar Nueva Orden</li>
+</ol>
+
+<div class="row p-4 justify-content-center">
+    <div class="card col-6">
+        <div class="card-body">
+            <form action="/ordenes/agregar" method="POST">
+                <div class="control-group form-group">
+                    <label class="control-label" for="id_cliente">Cliente</label><span class="text-danger">*</span>
+                    <div class="controls">
+                        <select id="id_cliente" name="id_cliente" class="custom-select form-control" required autofocus>
+                            <option value="1">Guillermo Perez</option>
+                            <option value="2">Octavio Perales</option>
+                            <option value="3">Camila Salas</option>
+                            <option value="4">Felipe Sánchez</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group form-group">
+                    <label>Fecha de Envío<small style="color: red;">*</small></label>
+                    <input type="date" id="fecha_envio" name="fecha_envio" class="form-control"
+                        placeholder="Fecha de Envío" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block">
+                        Guardar orden
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/ordenes/agregar.js"></script>

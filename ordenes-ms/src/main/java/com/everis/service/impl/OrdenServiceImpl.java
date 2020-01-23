@@ -1,5 +1,7 @@
 package com.everis.service.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,5 +28,10 @@ public class OrdenServiceImpl implements OrdenService {
 	@Override
 	public Iterable<Orden> obtenerTodasLasOrdenes() throws ResourceNotFoundException {
 		return ordenRepository.findAll();
+	}
+
+	@Override
+	public Iterable<Orden> obtenerOrdenesPorFechaEnvioMayoroIgual(Date fechaEnvio) throws ResourceNotFoundException {
+		return ordenRepository.findByFechaEnvioGreaterThanEqualOrderByIdAsc(fechaEnvio);
 	}
 }

@@ -34,6 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 //Rutas de la aplicación
 app.use(require("./routes/index"));
 app.use("/productos", require("./routes/productoRoute"));
+app.use("/ordenes", require("./routes/ordenRoute"));
 
 //Carpeta Pública donde estarán los .css .js .png .jpg
 app.use(express.static(path.join(__dirname, "public")));

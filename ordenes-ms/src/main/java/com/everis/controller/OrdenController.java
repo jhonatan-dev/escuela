@@ -1,6 +1,7 @@
 package com.everis.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.validation.Valid;
@@ -9,7 +10,10 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -85,5 +89,31 @@ public class OrdenController {
 
 		return modelMapper.map(ordenRegistrada, OrdenDTO.class);
 	}
-	
+
+	@GetMapping("/ordenes")
+	public Iterable<OrdenDTO> obtenerTodasLasOrdenes() throws ResourceNotFoundException {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		Iterable<Orden> listaOrdenEntidades = ordenService.obtenerTodasLasOrdenes();
+		ArrayList<OrdenDTO> listaProductosDTO = new ArrayList<OrdenDTO>();
+		listaOrdenEntidades.forEach((ordenEntidad) -> {
+			OrdenDTO ordenDTO = modelMapper.map(ordenEntidad, OrdenDTO.class);
+			listaProductosDTO.add(ordenDTO);
+		});
+		return listaProductosDTO;
+	}
+
+	@GetMapping("/orden/listado/{fechaEnvio}") /* Listar ordenes con fechas de envío sea igual o superior a esa */
+	public Iterable<OrdenDTO> listado(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaEnvio) throws ResourceNotFoundException {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		Iterable<Orden> listaOrdenEntidades = ordenService.obtenerOrdenesPorFechaEnvioMayoroIgual(fechaEnvio);
+		ArrayList<OrdenDTO> listaProductosDTO = new ArrayList<OrdenDTO>();
+		listaOrdenEntidades.forEach((ordenEntidad) -> {
+			OrdenDTO ordenDTO = modelMapper.map(ordenEntidad, OrdenDTO.class);
+			listaProductosDTO.add(ordenDTO);
+		});
+		return listaProductosDTO;
+	}
+
 }

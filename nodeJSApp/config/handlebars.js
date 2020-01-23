@@ -44,8 +44,21 @@ helpers.repeat = function(times, opts) {
   return out;
 };
 
-helpers.lowerString = function (variable = ""){
+helpers.lowerString = function(variable = "") {
   return String(variable).toLowerCase();
-}
+};
+
+helpers.formatDate = function(date = new Date()) {
+  var unformatteDate = new Date(date);
+  var day =
+    unformatteDate.getDate() > 9
+      ? String(unformatteDate.getDate())
+      : "0" + String(unformatteDate.getDate());
+  var month =
+    unformatteDate.getMonth() + 1 > 9
+      ? String(unformatteDate.getMonth() + 1)
+      : "0" + String(unformatteDate.getMonth() + 1);
+  return day + "/" + month + "/" + String(unformatteDate.getFullYear());
+};
 
 module.exports = helpers;
