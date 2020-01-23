@@ -1,0 +1,50 @@
+<h1 class="mt-4 mb-3">Lista de Productos</h1>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Inicio</a>
+    </li>
+    <li class="breadcrumb-item active">Lista de Productos
+    </li>
+</ol>
+
+<div class="table-wrapper">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>Producto <b>Detalles</b></h2>
+            </div>
+            <div class="col-sm-4">
+                <button id="agregarProducto" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Agregar nuevo</button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio (S/.)</th>
+                <th>Tipo</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each lista_productos }}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{codigo}}</td>
+                <td>{{nombre}}</td>
+                <td>{{descripcion}}</td>
+                <td>{{precio}}</td>
+                <td>{{tipo_producto.nombre}}</td>
+                <td>{{cantidad_stock}}</td>
+            </tr>
+            {{/each }}
+        </tbody>
+    </table>
+</div>
+
+<script src="/js/productos/lista.js"></script>

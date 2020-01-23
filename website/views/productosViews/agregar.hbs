@@ -1,0 +1,75 @@
+<h1 class="mt-4 mb-3">Agregar Nuevo Producto</h1>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Inicio</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="/productos">Lista de Productos</a>
+    </li>
+    <li class="breadcrumb-item active">Agregar Nuevo Producto</li>
+</ol>
+
+<div class="row p-4 justify-content-center">
+    <div class="card col-6">
+        <div class="card-body">
+            <form action="/productos/agregar" method="POST">
+                <div class="control-group form-group">
+                    <label>Nombre<small style="color: red;">*</small></label>
+                    <input type="text" name="nombre" class="form-control" placeholder="Nombre" required autofocus
+                        autocomplete="off">
+                </div>
+                <div class="control-group form-group">
+                    <label>Código<small style="color: red;">*</small></label>
+                    <input type="text" name="codigo" class="form-control" placeholder="Código" required
+                        autocomplete="off" minlength="5">
+                </div>
+                <div class="control-group form-group">
+                    <label>Descripción<small style="color: red;">*</small></label>
+                    <textarea name="descripcion" rows="6" class="form-control" placeholder="Descripción"
+                        style="resize: none;" required autocomplete="off"></textarea>
+                </div>
+                <div class="control-group form-group">
+                    <label>Precio<small style="color: red;">*</small></label>
+                    <input type="number" name="precio" min="0.0" step="0.01" class="form-control" placeholder="Precio"
+                        required autocomplete="off">
+                </div>
+                <div class="control-group form-group">
+                    <label class="control-label" for="codigo_producto">Tipo de Producto</label><span
+                        class="text-danger">*</span>
+                    <div class="controls">
+                        <select id="codigo_producto" name="codigo_producto" class="custom-select form-control" required>
+                            {{#each lista_tipoProductos}}
+                            <option value="{{codigo}}">{{nombre}}</option>
+                            {{else}}
+                            <option value="0" disabled>Sin Datos</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group form-group">
+                    <label>Imagen<small style="color: red;">*</small></label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-paperclip"></i></span>
+                        </div>
+                        <div class="custom-file">
+                            <input id="customFile1" type="file" name="ruta_imagen" class="custom-file-input"
+                                accept=".jpeg,.jpg, .png" required>
+                            <label id="customFileLabel1" class="custom-file-label" data-browse="Elegir">Agregar
+                                Imagen</label>
+                        </div>
+                    </div>
+                    <p class="help-block text-danger"></p>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block">
+                        Guardar producto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/productos/agregar.js"></script>

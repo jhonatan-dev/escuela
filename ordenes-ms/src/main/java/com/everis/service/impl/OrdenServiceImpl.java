@@ -22,4 +22,9 @@ public class OrdenServiceImpl implements OrdenService {
 	public Orden guardarOrden(Orden orden) throws ValidacionException, ResourceNotFoundException {
 		return ordenRepository.save(orden);
 	}
+
+	@Override
+	public Iterable<Orden> obtenerTodasLasOrdenes() throws ResourceNotFoundException {
+		return ordenRepository.findAll();
+	}
 }

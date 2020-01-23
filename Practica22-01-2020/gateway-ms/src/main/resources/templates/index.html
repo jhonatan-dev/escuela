@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-<title>Website</title>
+<title>Info de Empleado</title>
 
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" />
@@ -51,34 +51,41 @@
 	</div>
 
 	<script type="text/javascript">
-		var prefix = "";
-		$.getJSON(prefix + "/empleado/empleado/1", null, showOneEmployee).fail(
-				err);
+		$(document)
+				.ready(
+						function() {
+							var prefix = "";
+							$.getJSON(prefix + "/empleado/empleado/1", null,
+									showOneEmployee).fail(err);
 
-		function showOneEmployee(data) {
-			$("#empleado_dni").html(data.dni);
-			$("#empleado_nombre").html(data.nombre);
-			$("#empleado_apellido_paterno").html(data.apellido_paterno);
-			$("#empleado_apellido_materno").html(data.apellido_materno);
-			if (data.activo) {
-				$("#empleado_activo")
-						.html(
-								"<span class='badge badge-pill badge-success'>Activo</span>");
-			} else {
-				$("#empleado_activo")
-						.html(
-								"<span class='badge badge-pill badge-danger'>Inactivo</span>");
-			}
-			$("#empleado_empresa").html(data.empresa);
-		}
+							function showOneEmployee(data) {
+								$("#empleado_dni").html(data.dni);
+								$("#empleado_nombre").html(data.nombre);
+								$("#empleado_apellido_paterno").html(
+										data.apellido_paterno);
+								$("#empleado_apellido_materno").html(
+										data.apellido_materno);
+								if (data.activo) {
+									$("#empleado_activo")
+											.html(
+													"<span class='badge badge-pill badge-success'>Activo</span>");
+								} else {
+									$("#empleado_activo")
+											.html(
+													"<span class='badge badge-pill badge-danger'>Inactivo</span>");
+								}
+								$("#empleado_empresa").html(data.empresa);
+							}
 
-		function err(xhr, status, msg, prefix) {
-			var text = xhr.responseText;
-			var emsg = "<p><b>AJAX Falló obteniendo " + prefix + ": "
-					+ xhr.status + " " + msg + "</b><br/></p>";
-			$("#error").append(emsg);
-			$("#error").show();
-		}
+							function err(xhr, status, msg, prefix) {
+								var text = xhr.responseText;
+								var emsg = "<p><b>AJAX Falló obteniendo "
+										+ prefix + ": " + xhr.status + " "
+										+ msg + "</b><br/></p>";
+								$("#error").append(emsg);
+								$("#error").show();
+							}
+						});
 	</script>
 </body>
 </html>

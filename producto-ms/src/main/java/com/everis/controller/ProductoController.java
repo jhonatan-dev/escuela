@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.everis.dto.ProductoDTO;
 import com.everis.dto.ProductoReducidoDTO;
+import com.everis.dto.TipoProductoDTO;
 import com.everis.entidad.ImagenProducto;
 import com.everis.entidad.Producto;
 import com.everis.entidad.TipoProducto;
@@ -23,6 +24,7 @@ import com.everis.exception.ResourceNotFoundException;
 import com.everis.exception.ValidacionException;
 import com.everis.service.FeignService;
 import com.everis.service.ProductoService;
+import com.everis.service.TipoProductoService;
 
 @RestController
 @RefreshScope
@@ -30,7 +32,10 @@ public class ProductoController {
 
 	@Autowired
 	private ProductoService productoService;
-	
+
+	@Autowired
+	private TipoProductoService tipoProductoService;
+
 	@Autowired
 	private FeignService feignService;
 
@@ -43,6 +48,12 @@ public class ProductoController {
 		ArrayList<ProductoDTO> listaProductosDTO = new ArrayList<ProductoDTO>();
 		listaProductosEntidad.forEach((Producto producto) -> {
 			ProductoDTO productoDTO = new ModelMapper().map(producto, ProductoDTO.class);
+			try {
+				productoDTO.setCantidadStock(
+						feignService.obtenerCantidadProductosEnTodaLaTienda(producto.getId()).getCantidad());
+			} catch (Exception e) {
+				productoDTO.setCantidadStock(0L);
+			}
 			listaProductosDTO.add(productoDTO);
 		});
 		return listaProductosDTO;
@@ -71,6 +82,18 @@ public class ProductoController {
 		productoEntidad.setImagenProducto(imagenProductoEntidad);
 
 		return new ModelMapper().map(productoService.guardarProducto(productoEntidad), ProductoDTO.class);
+	}
+
+	@GetMapping("/tipoproductos")
+	public Iterable<TipoProductoDTO> obtenerTipoProductos() {
+		ModelMapper modelMapper = new ModelMapper();
+		Iterable<TipoProducto> listaTipoProductos = tipoProductoService.obtenerTipoProductos();
+		ArrayList<TipoProductoDTO> listaProductosDTO = new ArrayList<TipoProductoDTO>();
+		listaTipoProductos.forEach((tipoProducto) -> {
+			TipoProductoDTO tipoProductoDTO = modelMapper.map(tipoProducto, TipoProductoDTO.class);
+			listaProductosDTO.add(tipoProductoDTO);
+		});
+		return listaProductosDTO;
 	}
 
 	@GetMapping("/igv")
