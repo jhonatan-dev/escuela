@@ -39,5 +39,31 @@ public class OrdenServiceImpl implements OrdenService {
 	public Iterable<Orden> obtenerDetalleOrdenDeProducto(Long idProducto) {
 		return ordenRepository.findByDetalle_IdProducto(idProducto);
 	}
-	
+
+	@Transactional(readOnly = false)
+	@Override
+	public boolean eliminarOrden(Long idOrden) throws ResourceNotFoundException {
+		if (ordenRepository.existsById(idOrden)) {
+			ordenRepository.deleteById(idOrden);
+			return true;
+		}
+		throw new ResourceNotFoundException(String.format("No se encontró una orden con código %s en la BD.", idOrden));
+	}
+
+	@Transactional(readOnly = false)
+	@Override
+	public Orden actualizarOrden(Orden orden) throws ValidacionException, ResourceNotFoundException {
+		if (ordenRepository.existsById(orden.getId())) {
+			return ordenRepository.save(orden);
+		}
+		throw new ResourceNotFoundException(
+				String.format("No se encontró una orden con código %s en la BD.", orden.getId()));
+	}
+
+	@Override
+	public Orden obtenerOrdenPorId(Long idOrden) throws ResourceNotFoundException {
+		return ordenRepository.findById(idOrden).orElseThrow(() -> new ResourceNotFoundException(
+				String.format("No se encontró una orden con código %s en la BD.", idOrden)));
+	}
+
 }

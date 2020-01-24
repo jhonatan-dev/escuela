@@ -12,19 +12,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.everis.dto.OrdenDTO;
+import com.everis.dto.OrdenFechaEnvioDTO;
 import com.everis.dto.OrdenReducidaDTO;
 import com.everis.dto.ProductoDTO;
 import com.everis.entidad.Orden;
 import com.everis.exception.ResourceNotFoundException;
 import com.everis.exception.ValidacionException;
+import com.everis.service.DetalleOrdenService;
 import com.everis.service.FeignService;
 import com.everis.service.OrdenService;
 
@@ -38,6 +42,9 @@ public class OrdenController {
 
 	@Autowired
 	private OrdenService ordenService;
+
+	@Autowired
+	private DetalleOrdenService detalleOrdenService;
 
 	@Autowired
 	private FeignService feignService;
@@ -129,5 +136,24 @@ public class OrdenController {
 		});
 		return listaOrdenDTO;
 	}
-	
+
+	@DeleteMapping("/orden/{idOrden}")
+	public boolean eliminarOrden(@PathVariable Long idOrden) throws ResourceNotFoundException {
+		if (detalleOrdenService.eliminarDetalleDeOrden(idOrden)) {
+			return ordenService.eliminarOrden(idOrden);
+		}
+		return false;
+	}
+
+	@PutMapping("/orden/{idOrden}")
+	public OrdenDTO actualizarOrden(@PathVariable Long idOrden,
+			@Valid @RequestBody OrdenFechaEnvioDTO ordenFechaEnvioDTO)
+			throws ResourceNotFoundException, ValidacionException {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		Orden ordenEntidad = ordenService.obtenerOrdenPorId(idOrden);
+		ordenEntidad.setFechaEnvio(ordenFechaEnvioDTO.getFechaEnvio());
+		return modelMapper.map(ordenService.actualizarOrden(ordenEntidad), OrdenDTO.class);
+	}
+
 }

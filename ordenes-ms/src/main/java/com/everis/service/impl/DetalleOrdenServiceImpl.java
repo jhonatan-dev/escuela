@@ -13,5 +13,11 @@ public class DetalleOrdenServiceImpl implements DetalleOrdenService {
 
 	@Autowired
 	private DetalleOrdenRepository detalleOrdenRepository;
+
+	@Override
+	public boolean eliminarDetalleDeOrden(Long idOrden) {
+		detalleOrdenRepository.deleteByOrden_id(idOrden);
+		return true;
+	}
 	
 }
