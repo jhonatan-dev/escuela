@@ -1,0 +1,16 @@
+Descargar
+
+https://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
+
+Copiarlo a la carpeta:
+
+C:\Program Files (x86)\Java\jdk1.8.0_231\jre\lib\security\policy\unlimited
+
+En el proyecto de escuela-config-server añadir la dependencia de "Cloud Security"
+
+Ingresar al config server:
+
+http://localhost:8081
+
+usuario: user
+password: 824da333-37eb-4129-8330-3d5c23d6c609 (Que sea genera automáticamente al levantar el config-server)

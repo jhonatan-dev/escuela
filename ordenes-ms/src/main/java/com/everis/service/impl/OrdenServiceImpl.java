@@ -34,4 +34,10 @@ public class OrdenServiceImpl implements OrdenService {
 	public Iterable<Orden> obtenerOrdenesPorFechaEnvioMayoroIgual(Date fechaEnvio) throws ResourceNotFoundException {
 		return ordenRepository.findByFechaEnvioGreaterThanEqualOrderByIdAsc(fechaEnvio);
 	}
+
+	@Override
+	public Iterable<Orden> obtenerDetalleOrdenDeProducto(Long idProducto) {
+		return ordenRepository.findByDetalle_IdProducto(idProducto);
+	}
+	
 }

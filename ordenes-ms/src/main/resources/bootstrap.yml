@@ -4,7 +4,7 @@ spring:
   cloud:
     config:
       uri:
-      - http://localhost:8081 #IP y puerto del Servidor de Configuración
+      - http://user:824da333-37eb-4129-8330-3d5c23d6c609@localhost:8081 #IP y puerto del Servidor de Configuración
   #profiles:
   #  active:
   #  - dev

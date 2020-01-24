@@ -104,7 +104,8 @@ public class OrdenController {
 	}
 
 	@GetMapping("/orden/listado/{fechaEnvio}") /* Listar ordenes con fechas de envío sea igual o superior a esa */
-	public Iterable<OrdenDTO> listado(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaEnvio) throws ResourceNotFoundException {
+	public Iterable<OrdenDTO> listado(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaEnvio)
+			throws ResourceNotFoundException {
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		Iterable<Orden> listaOrdenEntidades = ordenService.obtenerOrdenesPorFechaEnvioMayoroIgual(fechaEnvio);
@@ -116,4 +117,17 @@ public class OrdenController {
 		return listaProductosDTO;
 	}
 
+	@GetMapping("/orden/detalle/{idProducto}")
+	public Iterable<OrdenDTO> obtenerDetalleOrden(@PathVariable Long idProducto) {
+		Iterable<Orden> listaOrdenEntidades = ordenService.obtenerDetalleOrdenDeProducto(idProducto);
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		ArrayList<OrdenDTO> listaOrdenDTO = new ArrayList<OrdenDTO>();
+		listaOrdenEntidades.forEach((ordenEntidad) -> {
+			OrdenDTO ordenDTO = modelMapper.map(ordenEntidad, OrdenDTO.class);
+			listaOrdenDTO.add(ordenDTO);
+		});
+		return listaOrdenDTO;
+	}
+	
 }

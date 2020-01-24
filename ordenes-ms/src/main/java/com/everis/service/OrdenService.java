@@ -13,4 +13,6 @@ public interface OrdenService {
 	public Iterable<Orden> obtenerTodasLasOrdenes() throws ResourceNotFoundException;
 	
 	public Iterable<Orden> obtenerOrdenesPorFechaEnvioMayoroIgual(Date fechaEnvio) throws ResourceNotFoundException;
+	
+	public Iterable<Orden> obtenerDetalleOrdenDeProducto(Long idProducto);
 }
